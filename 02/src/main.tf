@@ -15,12 +15,12 @@ data "yandex_compute_image" "ubuntu" {
 resource "yandex_compute_instance" "platform" {
   name        = local.web_name
   hostname    = local.web_name
-  zone        = var.zone_a
+  zone        = local.web_res.zone
   platform_id = var.vm_web_platform_id
   resources {
-    cores         = var.vm_web_cores
-    memory        = var.vm_web_memory
-    core_fraction = var.vm_web_core_fraction
+    cores         = local.web_res.cores
+    memory        = local.web_res.memory
+    core_fraction = local.web_res.core_fraction
   }
   boot_disk {
     initialize_params {image_id = data.yandex_compute_image.ubuntu.image_id}
@@ -32,8 +32,5 @@ resource "yandex_compute_instance" "platform" {
     subnet_id = yandex_vpc_subnet.develop.id
     nat       = true
   }
- metadata = {
-    serial-port-enable = 1
-  ssh-keys = "ubuntu:ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAifb50v1JFrkXnwXyS9Yvp4pfOJwO3EdzY6KWRld/DU user@ubuntu"
-   }  
+  metadata = var.vm_metadata
 }

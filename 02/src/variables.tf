@@ -48,9 +48,9 @@ variable "vpc_name_db" {
 
 
 ###ssh vars
-variable "vms_ssh_public_root_key" {
-  type        = string
-}
+#variable "vms_ssh_public_root_key" {
+ # type        = string
+#}
 
 
 
@@ -140,3 +140,46 @@ variable "vm_db_preemptible" {
   description = "Признак прерываемой ВМ"
   default     = true
 }
+
+variable "vms_resources" {
+  description = "Переменные конфигурации"
+  type = map(object({
+    cores         = number
+    memory        = number
+    core_fraction = number
+    hdd_size      = number
+    hdd_type      = string
+    zone      = string
+  }))
+   default = {
+    web = {
+      cores         = 2
+      memory        = 4
+      core_fraction = 20
+      hdd_size      = 10
+      hdd_type      = "network-hdd"
+      platform_id   = "standard-v3"
+      preemptible   = true
+      zone          = "ru-central1-a"
+      image_family  = "ubuntu-2204-lts"
+    }
+    db = {
+      cores         = 2
+      memory        = 2
+      core_fraction = 20
+      hdd_size      = 10
+      hdd_type      = "network-hdd"
+      platform_id   = "standard-v3"
+      preemptible   = true
+      zone          = "ru-central1-b"
+      image_family  = "ubuntu-2204-lts"
+    }
+  }
+}
+variable "vm_metadata" {
+  description = "Meta"
+  type = object({
+    serial-port-enable = number
+    ssh-keys           = string
+})
+  }
