@@ -1,0 +1,11 @@
+Выбор версии
+ required_version = "~>1.15.0"
+
+
+Недолжно  File
+ service_account_key_file = "authorized_key.json"
+
+
+Нету такой платформы
+FailedPrecondition desc = Platform "standart-v4
+
